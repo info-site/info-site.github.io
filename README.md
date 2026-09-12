@@ -2,6 +2,9 @@
 
 최신 보이스피싱·스미싱·투자사기 등 사기 수법을 정리하는 정적 사이트입니다. 빌드 도구 없이 순수 HTML/CSS로 작성되어 있습니다.
 
+**배포 상태: 완료** — https://info-site.github.io/
+저장소: https://github.com/info-site/info-site.github.io (개인 계정과 분리된 브랜드 전용 계정)
+
 ## 파일 구성
 
 - `index.html`, `about.html`, `privacy.html`, `contact.html` — 핵심 페이지
@@ -11,47 +14,31 @@
 
 ---
 
-## 1단계. 배포 전 준비: 도메인 주소 반영
+## ~~1~2단계. 배포~~ (완료됨)
 
-모든 HTML 파일과 `sitemap.xml`, `robots.txt`에 `https://info-site.github.io` 이라는 임시 주소가 들어 있습니다. 실제 도메인(또는 GitHub Pages 주소)이 정해지면 전체 파일에서 이 문자열을 일괄 치환해야 합니다.
+`info-site` 라는 개인 신상과 무관한 전용 GitHub 계정을 새로 만들고, 특수 저장소명 `info-site.github.io`를 사용해 경로 없이 깔끔한 루트 주소로 배포했습니다. 로컬 git 커밋 작성자도 `info-site@users.noreply.github.com`(GitHub noreply 주소)로 설정되어 있어 실명·개인 이메일이 커밋 기록에 노출되지 않습니다.
 
-예: 도메인이 `https://www.myscamsite.com` 이라면 프로젝트 폴더에서 아래 명령 실행 (Git Bash 기준):
-
+새 글을 추가하거나 파일을 수정한 뒤 재배포하려면:
 ```bash
-grep -rl "info-site.github.io" . | xargs sed -i "s|info-site.github.io|www.myscamsite.com|g"
+git add .
+git commit -m "설명"
+git push
 ```
+1~2분 내 https://info-site.github.io/ 에 반영됩니다.
 
-GitHub Pages를 그대로 쓴다면 도메인은 `내계정.github.io/저장소이름` 형태가 됩니다.
+문의 페이지(`contact.html`)는 이메일 대신 **GitHub Issue** (`github.com/info-site/info-site.github.io/issues/new`)로 연결되어 있습니다. 실제 이메일을 받고 싶다면 이 계정 전용으로 새로 만든 이메일 주소로 바꿔도 됩니다 (개인 이메일은 비추천).
 
-`contact.html`의 `contact@info-site.github.io` 이메일 주소도 실제 사용할 이메일로 바꿔주세요.
-
----
-
-## 2단계. GitHub Pages로 배포하기
-
-1. [github.com](https://github.com)에서 새 저장소(Repository)를 만듭니다. (예: `scamradar`)
-2. 이 프로젝트 폴더에서 git 초기화 후 푸시합니다.
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial site"
-   git branch -M main
-   git remote add origin https://github.com/내계정/scamradar.git
-   git push -u origin main
-   ```
-3. GitHub 저장소 페이지 → **Settings → Pages** 로 이동합니다.
-4. "Build and deployment" 에서 Source를 **Deploy from a branch**, Branch를 **main / (root)** 로 설정 후 저장합니다.
-5. 1~2분 후 `https://내계정.github.io/scamradar/` 로 접속되는지 확인합니다.
-6. (선택) 커스텀 도메인이 있다면 같은 Pages 설정 화면에서 Custom domain에 입력하고, 도메인 등록업체(가비아, 후이즈 등)에서 CNAME 레코드를 GitHub Pages로 연결합니다.
-
-> 커스텀 도메인을 쓸 계획이라면, 1단계의 URL 치환을 커스텀 도메인 기준으로 하는 것이 좋습니다 (나중에 바꾸면 검색엔진에 다시 인식시켜야 함).
+> 커스텀 도메인을 나중에 연결하고 싶다면 Settings → Pages → Custom domain에서 설정하고, 사이트 내 모든 `info-site.github.io` 문자열을 새 도메인으로 일괄 치환해야 합니다:
+> ```bash
+> grep -rl "info-site.github.io" . | xargs sed -i "s|info-site.github.io|새도메인.com|g"
+> ```
 
 ---
 
 ## 3단계. Google Search Console 등록
 
 1. [Google Search Console](https://search.google.com/search-console)에 접속해 Google 계정으로 로그인합니다.
-2. "속성 추가" → **URL 접두어** 방식을 선택하고 사이트 주소(`https://내계정.github.io/scamradar/` 또는 커스텀 도메인)를 입력합니다.
+2. "속성 추가" → **URL 접두어** 방식을 선택하고 사이트 주소(`https://info-site.github.io/`)를 입력합니다.
 3. 소유권 확인 방법 중 **HTML 태그** 방식을 선택하면 `<meta name="google-site-verification" content="...">` 태그를 줍니다. 이 태그를 각 페이지의 `<head>`에 넣는 대신, `index.html`의 `<head>` 맨 위에 한 줄만 추가하면 됩니다 (홈페이지에만 있어도 인증됨).
 4. 태그를 추가한 뒤 다시 배포(git push)하고, Search Console에서 "확인" 버튼을 클릭합니다.
 5. 확인이 완료되면 왼쪽 메뉴의 **Sitemaps**로 이동해 `sitemap.xml`을 제출합니다. (예: `sitemap.xml`만 입력)
