@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://info-site.github.io/sitemap.xml
